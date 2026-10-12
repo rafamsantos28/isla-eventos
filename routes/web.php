@@ -64,7 +64,46 @@ Route::get('/perfil/{interesse}', function (string $interesse) use ($interesses)
 });
 
 Route::get('/eventos', function () use ($eventos) {
+    $tipo = request('tipo');
+
+    if ($tipo) {
+        $eventos = array_filter($eventos,
+            fn ($evento) => $evento['tipo'] === $tipo);
+    }
+
     return view('eventos.index', [
-    'eventos' => $eventos,
+        'eventos' => $eventos,
+        'tipo' => $tipo,
+    ]);
+});
+
+Route::get('/eventos/{id}', function (int $id) use ($eventos) {
+    $evento = null;
+
+    foreach ($eventos as $item) {
+        if ($item['id'] === $id) {
+            $evento = $item;
+        }
+    }
+
+    if ($evento === null) {
+        abort(404);
+    }
+
+    return view('eventos.show', ['evento' => $evento]);
+})->whereNumber('id');
+
+Route::get('/eventos/proximos', function () use ($eventos) {
+    $hoje = date('Y-m-d');
+
+    $proximos = array_filter($eventos,
+        fn ($evento) => $evento['data'] >= $hoje);
+
+    usort($proximos,
+        fn ($a, $b) => strcmp($a['data'], $b['data']));
+
+    return view('eventos.index', [
+        'eventos' => $proximos,
+        'tipo' => null,
     ]);
 });
