@@ -16,7 +16,8 @@
     <p>Local: {{ $evento['local'] }}</p>
     <p>Inscritos: {{ $evento['inscritos'] }} de {{ $evento['vagas'] }}</p>
 
-    <a href="/eventos">Voltar aos eventos</a>
+<a href="{{ route('eventos.index') }}">Voltar aos eventos</a>
+<p><a href="{{ route('inicio') }}">Início</a></p>
 </main>
 </body>
 </html>

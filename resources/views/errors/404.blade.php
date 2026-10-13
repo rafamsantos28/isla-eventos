@@ -10,7 +10,8 @@
 <body>
 <main class="container">
     <h1>404 · Página não encontrada</h1>
-    <p><a href="/eventos">Voltar aos eventos</a></p>
+    <p><a href="{{ route('eventos.index') }}">Voltar aos eventos</a></p>
+    <p><a href="{{ route('inicio') }}">Início</a></p>
 </main>
 </body>
 </html>

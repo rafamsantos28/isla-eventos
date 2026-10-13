@@ -11,12 +11,14 @@
 <main class="container">
     <h1>Eventos @if ($tipo) ({{ $tipo }}) @endif</h1>
 
-    <p>
-        <a href="/eventos">todos</a> ·
-        <a href="/eventos?tipo=workshop">workshops</a> ·
-        <a href="/eventos?tipo=palestra">palestras</a> ·
-        <a href="/eventos?tipo=hackathon">hackathons</a>
-    </p>
+<p><a href="{{ route('inicio') }}">Início</a></p>
+
+<p>
+    <a href="{{ route('eventos.index') }}">todos</a> ·
+    <a href="{{ route('eventos.index', ['tipo' => 'workshop']) }}">workshops</a> ·
+    <a href="{{ route('eventos.index', ['tipo' => 'palestra']) }}">palestras</a> ·
+    <a href="{{ route('eventos.index', ['tipo' => 'hackathon']) }}">hackathons</a>
+</p>
 
     <table>
         <thead>
@@ -31,7 +33,7 @@
             @forelse ($eventos as $evento)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td><a href="/eventos/{{ $evento['id'] }}">{{ $evento['titulo'] }}</a></td>
+                    <td><a href="{{ route('eventos.show', $evento['id']) }}">{{ $evento['titulo'] }}</a></td>
                     <td>{{ date('d/m/Y', strtotime($evento['data'])) }}</td>
                     <td>
                         @if ($evento['inscritos'] >= $evento['vagas'])
