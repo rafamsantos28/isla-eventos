@@ -33,3 +33,10 @@ PL03
 segmento a segmento, por isso um pedido como /eventos/tipo/workshop nunca
 corresponde a /eventos/{id}: este só aceita dois segmentos. Além disso, o
 {id} tem whereNumber('id'), que só aceita dígitos.
+
+PL04
+E1
+o {{ }} (e a forma curta de @section) escapa os caracteres especiais do HTML, e é isso que impede o XSS, porque o texto do utilizador é sempre mostrado como texto e nunca interpretado como código.
+
+E2
+além de aparecer o título, antes aparece o 'código' ({ !! UCFIRST($EVENTO['TIPO']) !! })
