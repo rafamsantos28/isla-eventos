@@ -2,16 +2,12 @@
 @section('titulo', 'Início')
 @section('conteudo')
     <h1>Próximos eventos</h1>
-    <ul>
+    <div class="grelha">
         @forelse ($proximos as $evento)
-            <li>
-                <a href="{{ route('eventos.show', $evento['id']) }}">
-                    {{ $evento['titulo'] }}
-                </a>
-            </li>
+            <x-cartao-evento :evento="$evento" />
         @empty
-            <li>Não há eventos agendados.</li>
+            <p>Não há eventos agendados.</p>
         @endforelse
-    </ul>
+    </div>
     <p><a href="{{ route('eventos.index') }}">Ver todos os eventos</a></p>
 @endsection
