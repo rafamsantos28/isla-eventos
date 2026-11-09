@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name') }}</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-</head>
-<body>
-<main class="container">
+@extends('layouts.app')
+@section('titulo', 'Eventos')
+@section('conteudo')
     <h1>Eventos @if ($tipo) ({{ $tipo }}) @endif</h1>
-
-<p><a href="{{ route('inicio') }}">Início</a></p>
-
-<p>
-    <a href="{{ route('eventos.index') }}">todos</a> ·
-    <a href="{{ route('eventos.index', ['tipo' => 'workshop']) }}">workshops</a> ·
-    <a href="{{ route('eventos.index', ['tipo' => 'palestra']) }}">palestras</a> ·
-    <a href="{{ route('eventos.index', ['tipo' => 'hackathon']) }}">hackathons</a>
-</p>
-
+    <p><a href="{{ route('inicio') }}">Início</a></p>
+    <p>
+        <a href="{{ route('eventos.index') }}">todos</a> ·
+        <a href="{{ route('eventos.index', ['tipo' => 'workshop']) }}">workshops</a> ·
+        <a href="{{ route('eventos.index', ['tipo' => 'palestra']) }}">palestras</a> ·
+        <a href="{{ route('eventos.index', ['tipo' => 'hackathon']) }}">hackathons</a>
+    </p>
     <table>
         <thead>
             <tr>
@@ -48,6 +37,4 @@
             @endforelse
         </tbody>
     </table>
-</main>
-</body>
-</html>
+@endsection

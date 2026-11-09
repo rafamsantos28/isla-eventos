@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
+use Illuminate\Http\Request;
 
 class InicioController extends Controller
 {
-    public function index(): View
+    public function index()
     {
-        $hoje = date('Y-m-d');
+    $hoje = date('Y-m-d');
 
-        $proximos = array_filter(
-            config('eventos'),
-            fn ($evento) => $evento['data'] >= $hoje
-        );
+    $proximos = array_filter(
+        config('eventos'),
+        fn ($evento) => $evento['data'] >= $hoje
+    );
 
-        usort($proximos, fn ($a, $b) => strcmp($a['data'], $b['data']));
+    usort($proximos, fn ($a, $b) => strcmp($a['data'], $b['data']));
 
-        return view('inicio', [
-            'proximos' => array_slice($proximos, 0, 3),
-        ]);
-    }
+    return view('inicio', [
+        'proximos' => array_slice($proximos, 0, 3),
+]);
+}
 }

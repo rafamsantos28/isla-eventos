@@ -26,3 +26,10 @@ usa a primeira rota que corresponde, por isso /eventos/proximos nunca chegava a 
 executada e a página falhava. Com whereNumber('id') a rota {id} só aceita dígitos,
 logo "proximos" não corresponde e passa para a rota seguinte. Mesmo assim, é boa
 prática escrever as rotas fixas (/eventos/proximos) antes das dinâmicas (/eventos/{id}).
+
+PL03
+/eventos/tipo/{tipo} tem três segmentos (eventos, tipo, valor), enquanto
+/eventos/{id} tem apenas dois (eventos, valor). O Laravel compara o endereço
+segmento a segmento, por isso um pedido como /eventos/tipo/workshop nunca
+corresponde a /eventos/{id}: este só aceita dois segmentos. Além disso, o
+{id} tem whereNumber('id'), que só aceita dígitos.

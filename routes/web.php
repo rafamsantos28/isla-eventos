@@ -74,3 +74,6 @@ Route::get('/eventos/{id}', [EventoController::class, 'show'])
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
+
+Route::get('/eventos/tipo/{tipo}', [EventoController::class, 'porTipo'])
+    ->name('eventos.tipo');
