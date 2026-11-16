@@ -9,6 +9,9 @@
     <p>Data: {{ date('d/m/Y', strtotime($evento->data)) }}</p>
     <p>Local: {{ $evento->local }}</p>
     <p>Inscritos: {{ $evento->inscritos }} de {{ $evento->vagas }}</p>
+    @if ($evento->descricao)
+    <p>{{ $evento->descricao }}</p>
+    @endif
     <a href="{{ route('eventos.index') }}">Voltar aos eventos</a>
     <p><a href="{{ route('inicio') }}">Início</a></p>
 @endsection
