@@ -40,3 +40,14 @@ o {{ }} (e a forma curta de @section) escapa os caracteres especiais do HTML, e 
 
 E2
 além de aparecer o título, antes aparece o 'código' ({ !! UCFIRST($EVENTO['TIPO']) !! })
+
+Desafio
+@section/@yield servem para o conteúdo principal de cada página: o layout define um
+@yield('conteudo') (ou 'titulo') e cada view preenche-o com @section. Cada secção tem um
+só conteúdo, e se for escrita duas vezes a segunda substitui a primeira. Uso-os para o
+título e para o corpo da página.
+
+@push/@stack servem para acrescentar coisas a um sítio do layout a partir de várias
+views, sem se substituírem: o layout define @stack('estilos') e cada página (ou
+componente) faz @push('estilos') com os seus próprios estilos. Uso-os para CSS ou
+scripts que só uma página precisa, como as cores das etiquetas na página inicial.
