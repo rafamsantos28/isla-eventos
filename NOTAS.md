@@ -51,3 +51,22 @@ título e para o corpo da página.
 views, sem se substituírem: o layout define @stack('estilos') e cada página (ou
 componente) faz @push('estilos') com os seus próprios estilos. Uso-os para CSS ou
 scripts que só uma página precisa, como as cores das etiquetas na página inicial.
+
+PL05
+A3
+...
+
+A4
+9. O db:show dá erro no XAMPP (MariaDB) por faltar performance_schema.session_status, contei as tabelas com o tinker e o phpMyAdmin.
+
+B2
+tipo 'título': varchar(150)
+tipo 'data': date
+tipo 'vagas': smallint(5)
+
+C2
+Workshop de Laravel: id 1
+Palestra: Carreiras em Cibersegurança: id 2
+Hackathon ISLA 24h: id 3
+Git e GitHub para iniciantes: id 4
+Conversa com antigos alunos DWDM: id 5 
