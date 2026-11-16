@@ -69,4 +69,16 @@ Workshop de Laravel: id 1
 Palestra: Carreiras em Cibersegurança: id 2
 Hackathon ISLA 24h: id 3
 Git e GitHub para iniciantes: id 4
-Conversa com antigos alunos DWDM: id 5 
+Conversa com antigos alunos DWDM: id 5
+
+D3
+'Cannot use object of type stdClass as array'
+
+D4
+/ -> 200
+/eventos -> 200
+/eventos?tipo=workshop -> 200
+/eventos?tipo=xpto -> 200
+/eventos/2 -> 200
+/eventos/99 -> 404
+/eventos/tipo/xpto -> 404

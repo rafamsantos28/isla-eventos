@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InicioController extends Controller
 {
     public function index()
     {
-    $hoje = date('Y-m-d');
+        $proximos = DB::table('eventos')
+            ->where('data', '>=', now()->toDateString())
+            ->orderBy('data')
+            ->limit(3)
+            ->get();
 
-    $proximos = array_filter(
-        config('eventos'),
-        fn ($evento) => $evento['data'] >= $hoje
-    );
-
-    usort($proximos, fn ($a, $b) => strcmp($a['data'], $b['data']));
-
-    return view('inicio', [
-        'proximos' => array_slice($proximos, 0, 3),
-]);
-}
+        return view('inicio', ['proximos' => $proximos]);
+    }
 }

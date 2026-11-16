@@ -1,14 +1,14 @@
 @extends('layouts.app')
-@section('titulo', $evento['titulo'])
+@section('titulo', $evento->titulo)
 @section('conteudo')
-    <h1>{{ $evento['titulo'] }}</h1>
-    @if ($evento['inscritos'] >= $evento['vagas'])
+    <h1>{{ $evento->titulo }}</h1>
+    @if ($evento->inscritos >= $evento->vagas)
         <x-alerta tipo="aviso">Este evento está esgotado.</x-alerta>
     @endif
-    <p>Tipo: {{ $evento['tipo'] }}</p>
-    <p>Data: {{ date('d/m/Y', strtotime($evento['data'])) }}</p>
-    <p>Local: {{ $evento['local'] }}</p>
-    <p>Inscritos: {{ $evento['inscritos'] }} de {{ $evento['vagas'] }}</p>
+    <p>Tipo: {{ $evento->tipo }}</p>
+    <p>Data: {{ date('d/m/Y', strtotime($evento->data)) }}</p>
+    <p>Local: {{ $evento->local }}</p>
+    <p>Inscritos: {{ $evento->inscritos }} de {{ $evento->vagas }}</p>
     <a href="{{ route('eventos.index') }}">Voltar aos eventos</a>
     <p><a href="{{ route('inicio') }}">Início</a></p>
 @endsection

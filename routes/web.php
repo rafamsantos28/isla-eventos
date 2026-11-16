@@ -3,6 +3,7 @@
 use App\Http\Controllers\EventoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InicioController;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
@@ -52,14 +53,10 @@ Route::get('/eventos', [EventoController::class, 'index'])
     ->name('eventos.index');
 
 Route::get('/eventos/proximos', function () {
-    $eventos = config('eventos');
-    $hoje = date('Y-m-d');
-
-    $proximos = array_filter($eventos,
-        fn ($evento) => $evento['data'] >= $hoje);
-
-    usort($proximos,
-        fn ($a, $b) => strcmp($a['data'], $b['data']));
+    $proximos = DB::table('eventos')
+        ->where('data', '>=', now()->toDateString())
+        ->orderBy('data')
+        ->get();
 
     return view('eventos.index', [
         'eventos' => $proximos,

@@ -65,5 +65,3 @@ class EventoSeeder extends Seeder
         ]);
     }
 }
-
-$this->call(EventoSeeder::class);
