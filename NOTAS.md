@@ -54,7 +54,8 @@ scripts que só uma página precisa, como as cores das etiquetas na página inic
 
 PL05
 A3
-...
+'SQLSTATE[42S02]: Base table or view not found: 1146 Table 'isla_eventos.sessions' doesn't exist'
+O Laravel guarda as sessões na base de dados (o `SESSION_DRIVER` está em `database`), por isso procura a tabela `sessions`. Como a base `isla_eventos` era nova e ainda não tinha corrido nenhuma migration, essa tabela nunca tinha sido criada.
 
 A4
 9. O db:show dá erro no XAMPP (MariaDB) por faltar performance_schema.session_status, contei as tabelas com o tinker e o phpMyAdmin.
@@ -64,12 +65,20 @@ tipo 'título': varchar(150)
 tipo 'data': date
 tipo 'vagas': smallint(5)
 
+B3
+No `migrate:status`, a migration `create_eventos_table` ficou no lote 2, porque correu depois das migrations iniciais do Laravel (lote 1).
+No `migrate:rollback`, a tabela `eventos` desapareceu do phpMyAdmin (as outras ficaram). O rollback desfaz o último lote e chamou o método `down()` da migration, que faz `Schema::dropIfExists('eventos')`. Depois o `php artisan migrate` voltou a criá-la, chamando o `up()`.
+
 C2
 Workshop de Laravel: id 1
 Palestra: Carreiras em Cibersegurança: id 2
 Hackathon ISLA 24h: id 3
 Git e GitHub para iniciantes: id 4
 Conversa com antigos alunos DWDM: id 5
+
+C3
+O `migrate:fresh --seed` fez, por ordem: 1) apagou todas as tabelas da base de dados; 2) voltou a criar a tabela `migrations`; 3) correu todas as migrations do início; 4) correu o `DatabaseSeeder`, que chama o `EventoSeeder` e insere os 5 eventos.
+Nunca o correria num servidor com inscrições reais porque apaga todas as tabelas e os dados que lá estão, e o seeder só volta a pôr os dados de exemplo. Perdiam-se as inscrições reais, sem forma de as recuperar.
 
 D3
 'Cannot use object of type stdClass as array'
@@ -82,3 +91,10 @@ D4
 /eventos/2 -> 200
 /eventos/99 -> 404
 /eventos/tipo/xpto -> 404
+
+D5
+Ao abrir `/eventos?tipo=' OR '1'='1` apareceram 0 eventos (apareceu o alerta de que não há eventos para mostrar).
+O SQL gerado é ``select * from `eventos` where `tipo` = ?``. O `?` é um marcador (binding): a consulta é enviada à base de dados com o `?` e o valor que o utilizador escreveu vai separado, como dados. Por isso o texto `' OR '1'='1` é comparado como um tipo qualquer, e não é executado como SQL. Isto impede a injeção de SQL.
+
+Desafio
+Não deve correr sempre porque cada execução acrescenta mais 20 eventos inventados e diferentes, sem verificar os que já existem. A base de dados enchia-se de lixo, os resultados deixavam de ser repetíveis, e num servidor real misturava dados falsos com eventos verdadeiros. Serve só para testar com muitos dados, e por isso corre-se à mão, com --class.
