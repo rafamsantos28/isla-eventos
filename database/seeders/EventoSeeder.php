@@ -2,71 +2,64 @@
 
 namespace Database\Seeders;
 
+use App\Models\Evento;
+use App\Models\Tipo;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class EventoSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('eventos')->insert([
+        $tipos = Tipo::pluck('id', 'slug');
+
+        Evento::create([
             'titulo' => 'Workshop de Laravel',
-            'tipo' => 'workshop',
+            'tipo_id' => $tipos['workshop'],
             'data' => '2026-11-18',
             'local' => 'Laboratório 2.05',
-            'descricao' => 'Um workshop onde vais explorar e aprender a usar o Laravel.',
+            'descricao' => 'Introdução prática ao Laravel, com exercícios.',
             'vagas' => 20,
             'inscritos' => 12,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
-        DB::table('eventos')->insert([
+        Evento::create([
             'titulo' => 'Palestra: Carreiras em Cibersegurança',
-            'tipo' => 'palestra',
+            'tipo_id' => $tipos['palestra'],
             'data' => '2026-11-25',
             'local' => 'Auditório',
             'descricao' => null,
             'vagas' => 120,
             'inscritos' => 120,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
-        DB::table('eventos')->insert([
+        Evento::create([
             'titulo' => 'Hackathon ISLA 24h',
-            'tipo' => 'hackathon',
+            'tipo_id' => $tipos['hackathon'],
             'data' => '2026-11-06',
             'local' => 'Átrio principal',
             'descricao' => null,
             'vagas' => 60,
             'inscritos' => 41,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
-        DB::table('eventos')->insert([
+        Evento::create([
             'titulo' => 'Git e GitHub para iniciantes',
-            'tipo' => 'workshop',
+            'tipo_id' => $tipos['workshop'],
             'data' => '2026-09-30',
             'local' => 'Laboratório 1.02',
             'descricao' => null,
             'vagas' => 25,
             'inscritos' => 25,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
-        DB::table('eventos')->insert([
+        Evento::create([
             'titulo' => 'Conversa com antigos alunos DWDM',
-            'tipo' => 'palestra',
+            'tipo_id' => $tipos['palestra'],
             'data' => '2026-12-02',
             'local' => 'Sala 3.10',
-            'descricao' => 'Ouve e conversa com antigos estudantes do curso de DWDM.',
+            'descricao' => 'A tua descrição do evento 5.',
             'vagas' => 40,
             'inscritos' => 9,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
     }
 }
