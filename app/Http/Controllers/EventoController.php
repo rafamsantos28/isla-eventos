@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evento;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class EventoController extends Controller
@@ -12,7 +12,7 @@ class EventoController extends Controller
     {
         $tipo = $request->query('tipo');
 
-        $eventos = DB::table('eventos')
+        $eventos = Evento::query()
             ->when($tipo, fn ($consulta) => $consulta->where('tipo', $tipo))
             ->orderBy('data')
             ->get();
@@ -23,21 +23,14 @@ class EventoController extends Controller
         ]);
     }
 
-    public function show(int $id): View
+    public function show(Evento $evento): View
     {
-        $evento = DB::table('eventos')->find($id);
-
-        if ($evento === null) {
-            abort(404);
-        }
-
         return view('eventos.show', ['evento' => $evento]);
     }
 
     public function porTipo(string $tipo): View
     {
-        $eventos = DB::table('eventos')
-            ->where('tipo', $tipo)
+        $eventos = Evento::where('tipo', $tipo)
             ->orderBy('data')
             ->get();
 

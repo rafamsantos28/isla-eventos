@@ -53,8 +53,7 @@ Route::get('/eventos', [EventoController::class, 'index'])
     ->name('eventos.index');
 
 Route::get('/eventos/proximos', function () {
-    $proximos = DB::table('eventos')
-        ->where('data', '>=', now()->toDateString())
+    $proximos = Evento::where('data', '>=', now()->toDateString())
         ->orderBy('data')
         ->get();
 
@@ -64,13 +63,13 @@ Route::get('/eventos/proximos', function () {
     ]);
 });
 
-Route::get('/eventos/{id}', [EventoController::class, 'show'])
-    ->whereNumber('id')
+Route::get('/eventos/{evento}', [EventoController::class, 'show'])
+    ->whereNumber('evento')
     ->name('eventos.show');
+
+Route::get('/eventos/tipo/{tipo}', [EventoController::class, 'porTipo'])
+    ->name('eventos.tipo');
 
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
-
-Route::get('/eventos/tipo/{tipo}', [EventoController::class, 'porTipo'])
-    ->name('eventos.tipo');
