@@ -2,6 +2,11 @@
 @section('titulo', 'Início')
 @section('conteudo')
     <h1>Próximos eventos</h1>
+    <p>    
+    @foreach ($tipos as $t)
+        <a href="{{ route('tipos.show', $t->slug) }}">{{ $t->nome }}</a> ({{ $t->eventos_count }})@if (! $loop->last) · @endif
+    @endforeach
+    </p>
     <div class="grelha">
         @forelse ($proximos as $evento)
             <x-cartao-evento :evento="$evento" />

@@ -98,3 +98,14 @@ O SQL gerado é ``select * from `eventos` where `tipo` = ?``. O `?` é um marcad
 
 Desafio
 Não deve correr sempre porque cada execução acrescenta mais 20 eventos inventados e diferentes, sem verificar os que já existem. A base de dados enchia-se de lixo, os resultados deixavam de ser repetíveis, e num servidor real misturava dados falsos com eventos verdadeiros. Serve só para testar com muitos dados, e por isso corre-se à mão, com --class.
+
+PL06
+A2
+Tabela eventos, se o modelo se chamasse 'Local' e a tabela 'locais' o 'php artisan tinker' iria pensar que a tabela se chama 'locals' e teríamos de resolver com '#[Table('locais')]' por cima da classe.
+
+B3
+O `TipoSeeder` tem de correr antes do `EventoSeeder` porque cada evento guarda o `tipo_id` de um tipo, e esses ids só existem depois de os tipos serem inseridos. O `EventoSeeder` começa por `Tipo::pluck('id', 'slug')`, que com a tabela `tipos` vazia devolve uma lista vazia, e o `$tipos['workshop']` falhava. Além disso, a chave estrangeira não aceita um `tipo_id` que ainda não exista na tabela `tipos`.
+
+C2
+Sem `with`, o ciclo fez 6 consultas; com `with('tipo')`, fez 2.
+Sem `with` há 1 consulta para os eventos e mais 1 por cada evento para ir buscar o tipo (o problema das N+1 consultas): com 5 eventos são 1 + 5 = 6, e com 1000 eventos seriam 1001. Com `with('tipo')` há sempre 2 consultas (uma aos eventos e uma aos tipos de todos eles), sejam 5 ou 1000 eventos.
