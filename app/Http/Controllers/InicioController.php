@@ -8,7 +8,8 @@ class InicioController extends Controller
 {
     public function index()
     {
-        $proximos = Evento::where('data', '>=', now()->toDateString())
+        $proximos = Evento::with('tipo')
+            ->where('data', '>=', now()->toDateString())
             ->orderBy('data')
             ->limit(3)
             ->get();

@@ -4,6 +4,8 @@ use App\Http\Controllers\EventoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InicioController;
 use Illuminate\Support\Facades\DB;
+use App\Models\Tipo;
+use App\Http\Controllers\TipoController;
 
 Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
@@ -53,13 +55,15 @@ Route::get('/eventos', [EventoController::class, 'index'])
     ->name('eventos.index');
 
 Route::get('/eventos/proximos', function () {
-    $proximos = Evento::where('data', '>=', now()->toDateString())
+    $proximos = Evento::with('tipo')
+        ->where('data', '>=', now()->toDateString())
         ->orderBy('data')
         ->get();
 
     return view('eventos.index', [
         'eventos' => $proximos,
         'tipo' => null,
+        'tipos' => Tipo::orderBy('nome')->get(),
     ]);
 });
 
@@ -69,6 +73,8 @@ Route::get('/eventos/{evento}', [EventoController::class, 'show'])
 
 Route::get('/eventos/tipo/{tipo}', [EventoController::class, 'porTipo'])
     ->name('eventos.tipo');
+
+Route::get('/tipos/{tipo:slug}', [TipoController::class, 'show'])->name('tipos.show');
 
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);

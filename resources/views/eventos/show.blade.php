@@ -5,7 +5,7 @@
     @if ($evento->inscritos >= $evento->vagas)
         <x-alerta tipo="aviso">Este evento está esgotado.</x-alerta>
     @endif
-    <p>Tipo: {{ $evento->tipo }}</p>
+    <p>Tipo: {{ $evento->tipo?->nome }}</p>
     <p>Data: {{ $evento->data->format('d/m/Y') }}</p>
     <p>Local: {{ $evento->local }}</p>
     <p>Inscritos: {{ $evento->inscritos }} de {{ $evento->vagas }}</p>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use App\Models\Tipo;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -12,14 +13,15 @@ class EventoController extends Controller
     {
         $tipo = $request->query('tipo');
 
-        $eventos = Evento::query()
-            ->when($tipo, fn ($consulta) => $consulta->where('tipo', $tipo))
+        $eventos = Evento::with('tipo')
+            ->when($tipo, fn ($c) => $c->whereRelation('tipo', 'slug', $tipo))
             ->orderBy('data')
             ->get();
 
         return view('eventos.index', [
             'eventos' => $eventos,
             'tipo' => $tipo,
+            'tipos' => Tipo::orderBy('nome')->get(),
         ]);
     }
 
@@ -30,7 +32,8 @@ class EventoController extends Controller
 
     public function porTipo(string $tipo): View
     {
-        $eventos = Evento::where('tipo', $tipo)
+        $eventos = Evento::with('tipo')
+            ->whereRelation('tipo', 'slug', $tipo)
             ->orderBy('data')
             ->get();
 
@@ -41,6 +44,7 @@ class EventoController extends Controller
         return view('eventos.index', [
             'eventos' => $eventos,
             'tipo' => $tipo,
+            'tipos' => Tipo::orderBy('nome')->get(),
         ]);
     }
 }
